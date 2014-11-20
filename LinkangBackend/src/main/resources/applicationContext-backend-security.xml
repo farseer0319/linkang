@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd"
+	default-lazy-init="true">
+	
+	<description>Shiro安全配置</description>
+	
+	<!-- Shiro's main business-tier object for web-enabled applications -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+<!-- 		<property name="realm" ref="neAuthorizingRealm" /> -->
+	</bean>
+
+	<!-- 自定义的Realm -->
+<!-- 	<bean id="neAuthorizingRealm" class="com.netease.print.security.realm.NEAuthorizingRealm"> -->
+<!-- 		<property name="simpleUserService" ref="openIDUserService" /> -->
+<!-- 	</bean> -->
+
+	<!-- Security Filter -->
+	<bean id="securityFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/login" />
+		<property name="successUrl" value="/index" />
+		<property name="filterChainDefinitions">
+			<!-- 遵循 FIRST MATCH WINS 这一原则 -->
+			<value>
+				/openid/** = anon
+				/ck = anon
+                /ems = anon
+                /voucherapi = anon
+                /faq/bi/utmorder = anon
+                /service/** = anon
+				# 最后一条通用配置,拦截需要URS认证的URL
+				/** = anon
+			</value>
+		</property>
+	</bean>
+
+	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+</beans>

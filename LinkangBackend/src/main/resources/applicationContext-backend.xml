@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<description>导入backend中的applicationContext文件列表</description>
+
+	<import resource="applicationContext-backend-security.xml" />
+<!-- 	<import resource="applicationContext-backend-service.xml" /> -->
+<!-- 	<import resource="applicationContext-backend-wms.xml" /> -->
+<!-- 	<import resource="classpath:/cache/ystore-core-ehcache.xml" /> -->
+<!-- 	<import resource="classpath:ystore-core-db.xml" /> -->
+<!-- 	<import resource="classpath:ystore-core-dao.xml" /> -->
+<!-- 	<import resource="classpath:ystore-core-service.xml" /> -->
+<!-- 	<import resource="classpath:ystore-core-msg.xml"/> -->
+</beans>

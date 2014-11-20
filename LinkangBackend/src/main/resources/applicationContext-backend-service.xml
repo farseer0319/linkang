@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+	http://www.springframework.org/schema/util 
+	http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+	<!-- 定义aspectj -->
+	<aop:aspectj-autoproxy expose-proxy="true"/>
+	<context:annotation-config />
+	<context:component-scan base-package="com.netease.print.ystore">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+    <bean id="backendProps" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="location" value="classpath:config/${enviroment}/backend.properties" />
+        <property name="fileEncoding" value="UTF-8" />
+    </bean>
+
+	<!-- Log4j初始化文件 -->
+	<bean id="log4jInitializer"
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod"
+			value="org.springframework.util.Log4jConfigurer.initLogging" />
+		<property name="arguments">
+			<list>
+				<value>classpath:config/${enviroment}/log4j.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- timer -->
+	<!-- factory -->
+	<bean id="quartzFactoryOfBackend"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref local="orderTimerTrigger" />
+				<ref local="ogTimerTrigger" />
+				<ref local="wmsStockShotTrigger" />
+				<ref local="hotSaleTopTimerTrigger" />
+				<ref local="prodCommentScoreAndTagTimerTrigger" />
+				<ref local="couponTipsTimerTrigger"/>
+				<ref local="couponRemindTimerTrigger"/>
+				<ref local="utmOrderTrigger" />
+				<ref local="staffWelfareTimerTrigger"/>
+			</list>
+		</property>
+		<property name="startupDelay" value="10" />
+		<property name="taskExecutor">
+			<bean id="taskExecutorOfBackend"
+				class="org.springframework.scheduling.quartz.SimpleThreadPoolTaskExecutor">
+				<property name="threadCount" value="3" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- scheduledReloadTrigger -->
+	<bean id="orderTimerTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="orderTimerJobDetail" />
+		<property name="cronExpression"
+			value="#{backendProps['OrderTimer.cronExpression']}" />
+	</bean>
+	<bean id="orderTimerJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="orderTimer" />
+		<property name="targetMethod" value="reload" />
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<!-- scheduledReloadTrigger -->
+	<bean id="ogTimerTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="ogTimerJobDetail" />
+		<property name="cronExpression"
+			value="#{backendProps['OGTimer.cronExpression']}" />
+	</bean>
+	<bean id="ogTimerJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="ogTimer" />
+		<property name="targetMethod" value="reload" />
+		<property name="concurrent" value="false" />
+	</bean>
+	
+	<!-- hotSaleTopTrigger -->
+	<bean id="hotSaleTopTimerTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="hotSaleTopTimerJobDetail" />
+		<property name="cronExpression"
+			value="#{backendProps['HotSaleTopTimer.cronExpression']}" />
+	</bean>
+	<bean id="hotSaleTopTimerJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="hotSaleTopTimer" />
+		<property name="targetMethod" value="reload" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<!-- ProdCommentScoreAndTagTrigger -->
+	<bean id="prodCommentScoreAndTagTimerTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="prodCommentScoreAndTagTimerJobDetail" />
+		<property name="cronExpression"
+			value="#{backendProps['ProdCommentScoreAndTagTimer.cronExpression']}" />
+	</bean>
+	<bean id="prodCommentScoreAndTagTimerJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="prodCommentScoreAndTagTimer" />
+		<property name="targetMethod" value="reload" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<!-- wmsStockShotTrigger -->
+	<bean id="wmsStockShotTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="wmsStockShotJobDetail" />
+		<property name="cronExpression" value="#{backendProps['WarehouseStockShotTimer.cronExpression']}" />
+	</bean>
+	<bean id="wmsStockShotJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="warehouseStockShotTimer" />
+		<property name="targetMethod" value="reload" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<!-- utmOrderTrigger -->
+	<bean id="utmOrderTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="utmOrderJobDetail" />
+		<property name="cronExpression" value="#{backendProps['UtmOrderTimer.cronExpression']}" />
+	</bean>
+	<bean id="utmOrderJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="utmOrderTimer" />
+		<property name="targetMethod" value="reload" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<!-- couponTipsTimerTrigger -->
+	<bean id="couponTipsTimerTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="couponTipsTimerJobDetail" />
+		<property name="cronExpression"
+			value="#{backendProps['CouponTipsTimer.cronExpression']}" />
+	</bean>
+	<bean id="couponTipsTimerJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="couponTipsTimer" />
+		<property name="targetMethod" value="reload" />
+		<property name="concurrent" value="false" />
+	</bean>
+	
+	<!-- couponTipsTimerTrigger -->
+	<bean id="couponRemindTimerTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="couponRemindTimerJobDetail" />
+		<property name="cronExpression"
+			value="#{backendProps['CouponRemindTimer.cronExpression']}" />
+	</bean>
+	<bean id="couponRemindTimerJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="couponRemindTimer" />
+		<property name="targetMethod" value="reload" />
+		<property name="concurrent" value="false" />
+	</bean>
+	
+	<!-- staffWelfareTimer -->
+	<bean id="staffWelfareTimerTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="staffWelfareTimerJobDetail" />
+		<property name="cronExpression"
+			value="#{backendProps['StaffWelfareTimer.cronExpression']}" />
+	</bean>
+	<bean id="staffWelfareTimerJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="staffWelfareTimer" />
+		<property name="targetMethod" value="reload" />
+		<property name="concurrent" value="false" />
+	</bean>
+	
+	<bean id="voucherFilter"
+		class="com.netease.print.ystore.backend.service.filter.VoucherApiFilter">
+		<property name="ipInfoList">
+			<list>
+				<!-- yxp -->
+				<value>172.17.2.1,yxp</value>
+				<value>172.17.2.2,yxp</value>
+				<value>172.17.2.3,yxp</value>
+				<value>172.17.2.4,yxp</value>
+				<value>172.17.2.5,yxp</value>
+				<value>172.17.2.6,yxp</value>
+               <value>60.191.86.163,yxp</value>
+               <value>60.191.86.164,yxp</value>
+               <value>60.191.86.172,yxp</value>
+               <value>60.191.86.179,yxp</value>
+               <value>60.191.86.182,yxp</value>
+               <value>60.191.86.183,yxp</value>
+			</list>
+		</property>
+	</bean>	
+	
+</beans>
