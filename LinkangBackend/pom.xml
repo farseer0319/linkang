@@ -14,6 +14,7 @@
 		<jackson.version>2.1.2</jackson.version>
 		<lucene.version>4.8.0</lucene.version>
 		<slf4j.version>1.7.6</slf4j.version>
+		<hibernate.version>3.6.9.Final</hibernate.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
@@ -24,6 +25,24 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    
+    <!-- AOP begin -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.6.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.6.6</version>
+		</dependency>
+		<!-- AOP end -->
     
    	<dependency>
 		<groupId>commons-io</groupId>
@@ -202,6 +221,26 @@
 			<version>${jackson.version}</version>
 		</dependency>
 		<!-- JSON end -->
+		
+		<!-- hibernate部分 -->
+	   <dependency>
+	    <groupId>org.hibernate</groupId>
+	    <artifactId>hibernate-core</artifactId>
+	    <version>${hibernate.version}</version>
+	   </dependency>
+	
+	   <dependency>
+	    <groupId>org.hibernate</groupId>
+	    <artifactId>hibernate-core</artifactId>
+	    <version>${hibernate.version}</version>
+	    <classifier>sources</classifier>
+	   </dependency>
+	
+	   <dependency>
+	    <groupId>org.hibernate</groupId>
+	    <artifactId>hibernate-c3p0</artifactId>
+	    <version>${hibernate.version}</version>
+	   </dependency>
     
   </dependencies>
 	<build>
@@ -260,6 +299,59 @@
 					<skip>true</skip>
 				</configuration>
 			</plugin>
+			<!-- 生成实体类 -->
+<!-- 生成实体类 -->
+			<plugin>  
+                <groupId>org.codehaus.mojo</groupId>  
+                <artifactId>hibernate3-maven-plugin</artifactId>  
+                <version>2.2</version>  
+  
+                <dependencies>  
+                    <dependency>  
+                        <groupId>mysql</groupId>  
+                        <artifactId>mysql-connector-java</artifactId>  
+                        <version>5.1.21</version>  
+                    </dependency>  
+                    <dependency>  
+                        <groupId>cglib</groupId>  
+                        <artifactId>cglib</artifactId>  
+                        <version>2.2</version>  
+                    </dependency>  
+                </dependencies>  
+  
+                <configuration>  
+                    <components>  
+                        <component>  
+                            <name>hbm2java</name>  
+                            <outputDirectory>src/main/java/</outputDirectory>  
+                            <!-- 主要用于反向控制数据库引擎通过JDBC连接数据 -->  
+                            <implementation>jdbcconfiguration</implementation>  
+                        </component>  
+                          <component>  
+                            <name>hbm2dao</name>  
+                            <outputDirectory>src/main/java/</outputDirectory>  
+                            <!-- 主要用于反向控制数据库引擎通过JDBC连接数据 -->  
+                            <implementation>jdbcconfiguration</implementation>  
+                        </component>  
+                    </components>  
+                    <componentProperties>  
+                        <!-- Hibernate配置文件 -->  
+                        <configurationfile>src/main/resources/hibernate.cfg.xml </configurationfile>  
+                        <!--   
+                        如果设为true将会生成JPA的元素注解  
+                        使用annotations from   
+                        javax.persistence and org.hibernate.annotations  
+                        默认值是false    
+                        -->  
+                        <ejb3>false</ejb3>  
+                        <!-- 指明生成java类的包名 -->  
+                        <packagename>com.linkang.platform.backend.meta</packagename>  
+                    </componentProperties>  
+                </configuration>  
+            </plugin>  
+            
+			
+			
 		</plugins>
 	</build>
 </project>

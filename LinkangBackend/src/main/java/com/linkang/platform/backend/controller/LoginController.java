@@ -9,10 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class LoginController extends BaseController {
 
 	/**
-	 * 首页.<br/>
-	 * ftl 获取已登录用户真实姓名<#if RequestParameters["realName"]?exists>
-	 * ${RequestParameters["realName"]}
-	 * 
 	 * @param model
 	 * @return
 	 */

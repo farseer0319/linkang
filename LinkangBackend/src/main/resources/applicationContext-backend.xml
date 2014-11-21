@@ -6,10 +6,9 @@
 
 	<import resource="applicationContext-backend-security.xml" />
 <!-- 	<import resource="applicationContext-backend-service.xml" /> -->
-<!-- 	<import resource="applicationContext-backend-wms.xml" /> -->
 <!-- 	<import resource="classpath:/cache/ystore-core-ehcache.xml" /> -->
 <!-- 	<import resource="classpath:ystore-core-db.xml" /> -->
 <!-- 	<import resource="classpath:ystore-core-dao.xml" /> -->
-<!-- 	<import resource="classpath:ystore-core-service.xml" /> -->
+	<import resource="classpath:ystore-core-service.xml" />
 <!-- 	<import resource="classpath:ystore-core-msg.xml"/> -->
 </beans>

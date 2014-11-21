@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+
+	<bean id="dbTransactionManager"
+		class="com.netease.dbsupport.transaction.impl.DBTransactionManagerImpl" />
+
+	<!-- Sql Support -->
+	<bean id="sqlSupport" class="com.netease.dbsupport.impl.SqlDAOSupportImpl">
+		<property name="connectionManager" ref="dataSource" />
+		<property name="transactionManager" ref="dbTransactionManager" />
+	</bean>
+
+	<bean id="commonDaoSqlBase" class="com.netease.space.framework.dao.sql.CommonDaoSqlBase"
+		abstract="true">
+		<property name="sqlSupport" ref="sqlSupport" />
+	</bean>
+
+	<bean id="skuSpecDao" class="com.netease.print.ystore.core.dao.SkuSpecDaoSqlImpl"
+		parent="commonDaoSqlBase">
+		<property name="objectConfig" ref="skuSpecDaoConf" />
+	</bean>
+	<bean id="skuSpecDaoConf"
+		class="com.netease.space.framework.dao.config.impl.ObjectConfig">
+		<property name="tableName" value="TB_Ystore_SkuSpec" />
+		<property name="keyColumn" value="id" />
+		<property name="className"
+			value="com.netease.print.ystore.core.meta.db.prod.SkuSpec" />
+	</bean>
+
+	<bean id="skuSpecOptionValueDao"
+		class="com.netease.print.ystore.core.dao.SkuSpecOptionValueDaoSqlImpl"
+		parent="commonDaoSqlBase">
+		<property name="objectConfig" ref="skuSpecOptionValueDaoConf" />
+	</bean>
+	<bean id="skuSpecOptionValueDaoConf"
+		class="com.netease.space.framework.dao.config.impl.ObjectConfig">
+		<property name="tableName" value="TB_Ystore_SkuSpecOptionValue" />
+		<property name="keyColumn" value="id" />
+		<property name="className"
+			value="com.netease.print.ystore.core.meta.db.prod.SkuSpecOptionValue" />
+	</bean>
+
+	<bean id="productSkuSpecMapDaoSql"
+		class="com.netease.print.ystore.core.dao.prod.ProductSkuSpecMapDaoSqlImpl"
+		parent="commonDaoSqlBase">
+		<property name="objectConfig" ref="productSkuSpecMapDaoConf" />
+	</bean>
+	<bean id="productSkuSpecMapDaoConf"
+		class="com.netease.space.framework.dao.config.impl.ObjectConfig">
+		<property name="tableName" value="TB_Ystore_ProductSkuSpecMap" />
+		<property name="unionKeyColumn" value="skuId,skuSpecId,skuSpecOptionValueId" />
+		<property name="className"
+			value="com.netease.print.ystore.core.meta.db.prod.ProductSkuSpecMap" />
+	</bean>
+
+	<bean id="productDao" class="com.netease.print.ystore.core.dao.prod.ProductDaoSqlImpl"
+		parent="commonDaoSqlBase">
+		<property name="objectConfig" ref="productDaoConf" />
+	</bean>
+	<bean id="productDaoConf"
+		class="com.netease.space.framework.dao.config.impl.ObjectConfig">
+		<property name="tableName" value="TB_Ystore_Product" />
+		<property name="keyColumn" value="id" />
+		<property name="className"
+			value="com.netease.print.ystore.core.meta.db.prod.Product" />
+	</bean>
+
+	<bean id="skuDao" class="com.netease.print.ystore.core.dao.SkuDaoSqlImpl"
+		parent="commonDaoSqlBase">
+		<property name="objectConfig" ref="skuDaoConf" />
+	</bean>
+	<bean id="skuDaoConf"
+		class="com.netease.space.framework.dao.config.impl.ObjectConfig">
+		<property name="tableName" value="TB_Ystore_Sku" />
+		<property name="keyColumn" value="id" />
+		<property name="className"
+			value="com.netease.print.ystore.core.meta.db.prod.Sku" />
+	</bean>
+
+	<bean id="productTemplateAttributeMapDao"
+		class="com.netease.print.ystore.core.dao.prod.ProductTemplateAttributeMapDaoSqlImpl"
+		parent="commonDaoSqlBase">
+		<property name="objectConfig" ref="productTemplateAttributeMapDaoConf" />
+	</bean>
+	<bean id="productTemplateAttributeMapDaoConf"
+		class="com.netease.space.framework.dao.config.impl.ObjectConfig">
+		<property name="tableName" value="TB_Ystore_ProductTemplateAttributeMap" />
+		<property name="keyColumn" value="id" />
+		<property name="className"
+			value="com.netease.print.ystore.core.meta.db.prod.ProductTemplateAttributeMap" />
+	</bean>
+
+	<bean id="productTemplateDao"
+		class="com.netease.print.ystore.core.dao.prod.ProductTemplateDaoSqlImpl"
+		parent="commonDaoSqlBase">
+		<property name="objectConfig" ref="productTemplateDaoConf" />
+	</bean>
+	<bean id="productTemplateDaoConf"
+		class="com.netease.space.framework.dao.config.impl.ObjectConfig">
+		<property name="tableName" value="TB_Ystore_ProductTemplate" />
+		<property name="keyColumn" value="id" />
+		<property name="className"
+			value="com.netease.print.ystore.core.meta.db.prod.ProductTemplate" />
+	</bean>
+
+	<bean id="SkuBarCodeMapDao"
+		class="com.netease.print.ystore.core.dao.SkuBarCodeMapDaoSqlImpl"
+		parent="commonDaoSqlBase">
+		<property name="objectConfig" ref="skuBarCodeMapDaoConf" />
+	</bean>
+	<bean id="skuBarCodeMapDaoConf"
+		class="com.netease.space.framework.dao.config.impl.ObjectConfig">
+		<property name="tableName" value="TB_Ystore_SkuBarCodeMap" />
+		<property name="keyColumn" value="skuid" />
+		<property name="className"
+			value="com.netease.print.ystore.core.meta.db.prod.SkuBarCodeMap" />
+	</bean>
+
+	<!-- sift begin -->
+	<bean id="siftDao" class="com.netease.print.ystore.core.dao.sift.SiftDaoImpl"
+		parent="commonDaoSqlBase">
+		<property name="objectConfig" ref="siftDaoConf" />
+	</bean>
+	<bean id="siftDaoConf"
+		class="com.netease.space.framework.dao.config.impl.ObjectConfig">
+		<property name="tableName" value="TB_Ystore_Sift" />
+		<property name="keyColumn" value="id" />
+		<property name="className"
+			value="com.netease.print.ystore.core.meta.db.sift.Sift" />
+	</bean>
+	<bean id="siftItemDao" class="com.netease.print.ystore.core.dao.sift.SiftItemDaoImpl"
+		parent="commonDaoSqlBase">
+		<property name="objectConfig" ref="siftItemDaoConf" />
+	</bean>
+	<bean id="siftItemDaoConf"
+		class="com.netease.space.framework.dao.config.impl.ObjectConfig">
+		<property name="tableName" value="TB_Ystore_SiftItem" />
+		<property name="keyColumn" value="id" />
+		<property name="className"
+			value="com.netease.print.ystore.core.meta.db.sift.SiftItem" />
+	</bean>
+	<bean id="siftProductRelationDao"
+		class="com.netease.print.ystore.core.dao.sift.SiftProductRelationDaoImpl"
+		parent="commonDaoSqlBase">
+		<property name="objectConfig" ref="siftProductRelationDaoConf" />
+	</bean>
+	<bean id="siftProductRelationDaoConf"
+		class="com.netease.space.framework.dao.config.impl.ObjectConfig">
+		<property name="tableName" value="TB_Ystore_SiftProductRelation" />
+		<property name="unionKeyColumn" value="productId,siftItemId" />
+		<property name="className"
+			value="com.netease.print.ystore.core.meta.db.sift.SiftProductRelation" />
+	</bean>
+	<bean id="siftCategoryRelationDao"
+		class="com.netease.print.ystore.core.dao.sift.SiftCategoryRelationDaoImpl"
+		parent="commonDaoSqlBase">
+		<property name="objectConfig" ref="siftCategoryRelationDaoConf" />
+	</bean>
+	<bean id="siftCategoryRelationDaoConf"
+		class="com.netease.space.framework.dao.config.impl.ObjectConfig">
+		<property name="tableName" value="TB_Ystore_SiftCategoryRelation" />
+		<property name="unionKeyColumn" value="categoryId,siftItemId" />
+		<property name="className"
+			value="com.netease.print.ystore.core.meta.db.sift.SiftCategoryRelation" />
+	</bean>
+	<!-- sift end -->
+
+</beans>
