@@ -1,0 +1,38 @@
+<div class="m-wtable" id="wtable">
+  <table class="table table-striped">
+      <tr>
+        <th>商品条码</th>
+        <th>商品名称</th>
+        <th>退货数量</th>
+        <th>退供类型</th>
+        <th>退货原因</th>
+        <th>申请退货时间</th>
+        <th>PO编号</th>
+        <th>档期时间</th>
+        <th>品牌名称</th>
+        <th>商家帐号</th>
+        <th>状态</th>
+      </tr>
+    <tbody>
+      {{#list list as tpl}}
+        <tr>
+          <td>{{tpl.barCode}}</td>
+          <td>{{tpl.productName}}</td>
+          <td>{{tpl.skuCount}}</td>
+          <td>{{tpl.type}}</td>
+          <td>{{tpl.typeDesc}}</td>
+          <td>{{tpl.createTime|format}}</td>
+          <td>{{tpl.poOrderId}}</td>
+          <td>{{tpl.timestar|format}}-{{tpl.timeend|format}}</td>
+          <td>{{tpl.brandName}}</td>
+          <td>{{tpl.companyName}}</td>
+          <td>未生成</td>
+        </tr>
+      {{/list}}
+    </tbody>
+  </table>
+</div>
+<div class="text-right m-wpager">
+
+  <pager total={{Math.ceil(total / 10)}} current={{current}} ></pager>
+</div>

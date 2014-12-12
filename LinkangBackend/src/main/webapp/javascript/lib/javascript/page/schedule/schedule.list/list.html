@@ -1,0 +1,63 @@
+<table class="table table-hover">
+    <tr>
+       <td>PO编号</td>
+       <td width="100px">PO名称</td>
+       <td>品牌名</td>
+       <td width="60px">商家帐号</td>
+       <td width="40px">开始时间</td>
+       <td>毛利率</td>
+       <td>服务费</td>
+       <td>保证金</td>
+       <td>价格区间</td>
+       <td>保底/加价</td>
+       <td>模式</td>
+       <td>仓库</td>
+       <td>站点</td>
+       <td width="40px">件数</td>
+       <td width="40px">款数</td>
+       <td width="40px">sku数</td>
+       <td>折扣带</td>
+       <td>状态</td>
+       <td>操作</td>
+     </tr>
+  <tbody>
+  {{#list list as schedule}}
+    <tr>
+      <td>{{@(schedule.id)}}</td>
+      <td>{{@(schedule.title)}}</td>
+      <td>{{@(schedule.brandName)}}</td>
+      <td>{{@(schedule.supplierName)}}</td>
+      <td>{{@(schedule.startTime|format)}}</td>
+      <td>{{@(schedule.cowork.grossProfitRate)}}</td>
+      <td>{{@(schedule.cowork.platformSrvFeeRate)}}</td>
+      <td>{{@(schedule.cowork.deposit)}}</td>
+      <td>{{@(schedule.cowork.minPriceAfterDiscount)}} ~ {{@(schedule.cowork.maxPriceAfterDiscount)}}</td>
+      <td>{{schedule.cowork.unlossFlag?'保底':'加价'}}</td>
+      <td>{{schedule.storeSaleInfo.jitMode==2?'JIT':'非JIT'}}</td>
+      <td>{{@(schedule.storeSaleInfo.storeAreaName)}}</td>
+      <td>{{@(schedule.storeSaleInfo.saleAreaName)}}</td>
+      <td>{{@(schedule.prdDetail.productTotalCnt)}}</td>
+      <td>{{@(schedule.prdDetail.unitCnt)}}</td>
+      <td>{{@(schedule.prdDetail.skuCnt)}}</td>
+      <td>{{@(schedule.prdDetail.minDiscount)}}~{{@(schedule.prdDetail.maxDiscount)}}</td>
+      <td>
+      	{{this.map[schedule.status]}}
+      </td>
+      <td>
+        {{#if schedule.status==1}}
+        	<a href="/schedule/create?id={{schedule.id}}">编辑</a><br/>
+            <a on-click={{this.submit(schedule)}}>提交</a>
+       	{{#elseif schedule.status==2}}
+        	<a href="/schedule/create?id={{schedule.id}}">编辑</a><br/>
+       	{{#elseif schedule.status==3}}
+        	
+       	{{#elseif schedule.status==4}}
+        	<a href="/schedule/create?id={{schedule.id}}">编辑</a><br/>
+       	{{/if}}
+       	<a href="/schedule/view?id={{schedule.id}}" target="_blank">查看</a><br/>
+      </td>
+    </tr>
+  {{/list}}
+  </tbody>
+</table>
+<pager total={{Math.ceil(total/limit)}} current={{current}}></pager>

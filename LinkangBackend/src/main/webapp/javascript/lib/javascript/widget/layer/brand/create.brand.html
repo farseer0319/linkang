@@ -1,0 +1,58 @@
+<div class="m-movewin">
+	<div class="wincnt">
+		<form class="form-horizontal j-flag">
+			<div class="form-group">
+				<label class="col-sm-3 control-label">
+                 	 品牌名称：
+                </label>
+				<div class="col-sm-9">
+					<div><label>英文名 或 拼音</label></div>
+					<input type ="hidden" value="" class="" name="brandId">
+					<div><input type ="text" value="" class="" name="brandNameEn" data-required="true" data-message="请输入品牌英文名"></div>
+					<div><label>中文名</label></div>
+					<input type ="text" value="" class="" name="brandNameZh" data-required="true" data-message="请输入品牌中文名"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">
+                 	 品牌logo
+                </label>
+				<div class="col-sm-9">
+					<ul class="f-cb m-brandlogos j-flag">
+						<li>
+							<img src="" width=153 height=70>
+							<div>140X60</div>
+							<label class="btn btn-primary j-img" data-name="logo">上传</label>
+							<input type="hidden" name="logo" data-message="上传logo">
+						</li>
+						<li>
+							<img src="" width=153 height=70>
+							<div>310X180</div>
+							<label class="btn btn-primary j-img" data-name="brandVisualImgWeb">上传</label>
+							<input type="hidden" name="brandVisualImgWeb" data-message="上传品牌形象图">
+						</li>
+						<li>
+							<img src="" width=153 height=70>
+							<div>710X349</div>
+							<label class="btn btn-primary j-img" data-name="brandVisualImgApp">上传</label>
+							<input type="hidden" name="brandVisualImgApp" data-message="上传APP品牌形象图">
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">
+                 	品牌推荐分类：
+                </label>
+				<div class="col-sm-9">
+					<select name="brandProbability">
+						<option value="0">A类品牌</option>
+						<option value="1">B类品牌</option>
+						<option value="2">C类品牌</option>
+					</select>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="f-tac winbnts"><span class="btn btn-primary j-flag">确定</span><span class="f-mgl btn btn-primary j-flag">取消</span></div>
+</div>

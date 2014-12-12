@@ -1,0 +1,33 @@
+<div class="m-wtable" id="wtable">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>订单序列号</th>
+        <th>用户ID</th>
+        <th>订单状态</th>
+        <th>下单时间</th>
+        <th>订单原价</th>
+        <th>订单实付</th>
+        <th>快递实付</th>
+        <th>物流方式</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#list list as tpl}}
+        <tr>
+          <td><a href="/order/orderdetail?type=0&key={{tpl.id}}">{{tpl.id}}</a></td>
+          <td><a href="/user/info?userId={{tpl.userId}}">{{tpl.userId}}</a></td>
+          <td>{{statusMap[tpl.status]}}</td>
+          <td>{{tpl.time|format}}</td>
+          <td>￥{{tpl.price}}</td>
+          <td>￥{{tpl.orderPay}}</td>
+          <td>￥{{tpl.expressPay}}</td>
+          <td>{{tpl.logistics}}</td>
+        </tr>
+      {{/list}}
+    </tbody>
+  </table>
+</div>
+<div class="text-right m-wpager">
+  <pager total={{Math.ceil(total / 10)}} current={{current}} ></pager>
+</div>

@@ -1,0 +1,39 @@
+<table class="table">
+	<tr>
+		<td>销售区域</td>
+		<td>品牌</td>
+		<td>商家ID</td>
+		<td>公司</td>
+		<td>商家账号</td>
+		<td>仓库所在地</td>
+		<td>联系人</td>
+		<td>联系电话</td>
+		<td>创建时间</td>
+		<td>操作</td>
+	</tr>
+ <tbody>
+  	{{#list list as item}}
+  		<tr>
+  		<td>{{@(item.areaName)}}</td>
+   		<td>{{@(item.actingBrandName)}}</td>
+   		<td>{{@(item.id)}}</td>
+   		<td>{{@(item.companyName)}}</td>
+   		<td>{{@(item.businessAccount)}}</td>
+   		<td>{{@(item.areaName)}}</td>
+   		<td>{{@(item.contactName)}}</td>
+   		<td>{{@(item.contactTel)}}</td>
+   		<td>{{item.createTime|format:'yyyy-MM-dd HH:mm'}}</td>
+   		<td>
+   			<a href="/business/detail/{{item.id}}">查看详情</a>
+   			<a href="/business/edit/{{item.id}}" class="f-mgl">修改</a>
+   			{{#if item.isActive==0}}
+   			<a on-click={{this.lock(item)}} class="f-mgl">冻结</a>
+   			{{#elseif item.isActive==1}}
+   			<a on-click={{this.unlock(item)}} class="f-mgl">激活</a>
+   			{{/if}}
+   		</td>
+  		</tr>
+  	{{/list}}
+  </tbody>
+  </table>
+<pager total={{Math.ceil(total/limit)}} current={{current}}></pager>

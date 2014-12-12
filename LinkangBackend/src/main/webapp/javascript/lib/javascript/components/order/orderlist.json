@@ -1,0 +1,69 @@
+{
+  "code": 200,
+  "result":{
+    "total": 100,
+    "list": [
+      {
+        "id": 1,
+        "serialNum": "YE5P-Y6R8",
+        "status": 1,
+        "time": 1410436682969,
+        "price": "10.00",
+        "orderPay": "10.00",
+        "expressPay": "10.00",
+        "logistics": "EMS"
+      },
+      {
+        "id": 222,
+        "serialNum": "YE5P-Y6R8",
+        "status": 2,
+        "time": 1410436682969,
+        "price": "10.00",
+        "orderPay": "10.00",
+        "expressPay": "10.00",
+        "logistics": "EMS"
+      },
+      {
+        "id": 333,
+        "serialNum": "YE5P-Y6R8",
+        "status": 3,
+        "time": 1410436682969,
+        "price": "10.00",
+        "orderPay": "10.00",
+        "expressPay": "10.00",
+        "logistics": "EMS"
+      },
+      {
+        "id": 24234,
+        "serialNum": "YE5P-Y6R8",
+        "status": 4,
+        "time": 1410436682969,
+        "price": "10.00",
+        "orderPay": "10.00",
+        "expressPay": "10.00",
+        "logistics": "EMS"
+      },
+      {
+        "id": 55555,
+        "serialNum": "YE5P-Y6R8",
+        "status": 5,
+        "time": 1410436682969,
+        "price": "10.00",
+        "orderPay": "10.00",
+        "expressPay": "10.00",
+        "logistics": "EMS"
+      },
+      {
+        "id": 56655,
+        "serialNum": "YE5P-Y6R8",
+        "status": 6,
+        "time": 1410436682969,
+        "price": "10.00",
+        "orderPay": "10.00",
+        "expressPay": "10.00",
+        "logistics": "EMS"
+      }
+    ]
+  }
+}
+  

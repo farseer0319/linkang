@@ -260,6 +260,7 @@
 					<systemProperties>
 						<systemProperty>
 							<name>spring.profiles.active</name>
+							
 							<!-- 开发环境,开发库 dev -->
 							<!-- 开发环境,测试库  dev-test -->
 							<!-- 开发环境,线上库(如果你有权限) dev-read-online -->
